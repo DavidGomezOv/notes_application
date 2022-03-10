@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:notes_application/core/text_type.dart';
 
 extension HexColor on Color {
   /// Prefixes a hash sign if [leadingHashSign] is set to `true` (default is `true`).
@@ -14,5 +15,17 @@ extension HexColor on Color {
     buffer.write(hexString.replaceFirst('#', ''));
     return Color(int.parse(buffer.toString(), radix: 16));
   }
+}
 
+extension TextTypeExtension on TextType {
+  String asString() => toString().split('.').last;
+}
+
+TextType? stringToEnum(String value) {
+  return <String, TextType>{
+    'bold': TextType.bold,
+    'italic': TextType.italic,
+    'italicBold': TextType.italicBold,
+    'normal': TextType.normal,
+  }[value];
 }

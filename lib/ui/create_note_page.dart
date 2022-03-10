@@ -117,17 +117,33 @@ class _CreateNotePageState extends State<CreateNotePage> {
                     stream: _noteBloc.changeTextData,
                     initialData: false,
                     builder: (context, snapshot) {
+                      final FontStyle txtStyle;
+                      final FontWeight txtWeight;
+                      if (_textType == TextType.italicBold) {
+                        txtStyle = FontStyle.italic;
+                        txtWeight = FontWeight.bold;
+                      } else if (_textType == TextType.italic) {
+                        txtStyle = FontStyle.italic;
+                        txtWeight = FontWeight.normal;
+                      } else if  (_textType == TextType.bold){
+                        txtStyle = FontStyle.normal;
+                        txtWeight = FontWeight.bold;
+                      } else {
+                        txtStyle = FontStyle.normal;
+                        txtWeight = FontWeight.normal;
+                      }
                       return Expanded(
                           child: Padding(
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 20.0, vertical: 10.0),
                             child: TextField(
                               controller: _controllerNote,
-                              decoration: const InputDecoration.collapsed(
+                              decoration: InputDecoration.collapsed(
                                   hintText: 'Note',
                                   hintStyle:
-                                  TextStyle(fontSize: 18, color: Colors.white)),
-                              style: TextStyle(color: Colors.white, fontSize: _textSize.toDouble()),
+                                  TextStyle(fontSize: _textSize.toDouble(), color: Colors.white)),
+                              style: TextStyle(color: Colors.white, fontSize: _textSize.toDouble(),
+                                  fontStyle: txtStyle, fontWeight: txtWeight),
                               cursorColor: Colors.white,
                               maxLines: null,
                               expands: true,
@@ -145,7 +161,18 @@ class _CreateNotePageState extends State<CreateNotePage> {
                         children: [
                           TextButton(
                             child: const Text('B', style: TextStyle(fontSize: 22, color: Colors.white, fontWeight: FontWeight.bold),),
-                            onPressed: () {},
+                            onPressed: () {
+                              if (_textType == TextType.bold) {
+                                _textType = TextType.normal;
+                              } else if (_textType == TextType.italic) {
+                                _textType = TextType.italicBold;
+                              } else if (_textType == TextType.italicBold) {
+                                _textType = TextType.italic;
+                              } else {
+                                _textType = TextType.bold;
+                              }
+                              _noteBloc.changeTextDataSink.add(true);
+                            },
                             style: TextButton.styleFrom(
                               minimumSize: Size.zero,
                               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
@@ -159,11 +186,27 @@ class _CreateNotePageState extends State<CreateNotePage> {
                               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
                               tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              if (_textType == TextType.italic) {
+                                _textType = TextType.normal;
+                              } else if (_textType == TextType.bold) {
+                                _textType = TextType.italicBold;
+                              } else if (_textType == TextType.italicBold) {
+                                _textType = TextType.bold;
+                              } else {
+                                _textType = TextType.italic;
+                              }
+                              _noteBloc.changeTextDataSink.add(true);
+                            },
                           ),
                           TextButton(
                             child: const Text('A+', style: TextStyle(fontSize: 22, color: Colors.white, fontWeight: FontWeight.bold),),
-                            onPressed: () {},
+                            onPressed: () {
+                              if (_textSize < 30) {
+                                _noteBloc.changeTextDataSink.add(true);
+                                _textSize += 1;
+                              }
+                            },
                             style: TextButton.styleFrom(
                               minimumSize: Size.zero,
                               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
@@ -172,7 +215,12 @@ class _CreateNotePageState extends State<CreateNotePage> {
                           ),
                           TextButton(
                             child: const Text('A-', style: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold),),
-                            onPressed: () {},
+                            onPressed: () {
+                              if (_textSize > 10) {
+                                _noteBloc.changeTextDataSink.add(true);
+                                _textSize -= 1;
+                              }
+                            },
                             style: TextButton.styleFrom(
                               minimumSize: Size.zero,
                               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
@@ -302,7 +350,7 @@ class _CreateNotePageState extends State<CreateNotePage> {
         DateTime.now(),
         _noteColor.toHex(),
         _isPinned,
-        _textType,
+        _textType.asString(),
         _textSize);
     _noteBloc.saveOrEditNote(note, isSave).then((value) {
       if (value.result != null && value.result != -1) {
@@ -340,5 +388,7 @@ class _CreateNotePageState extends State<CreateNotePage> {
         ? HexColor.fromHex(widget.note!.color!)
         : HexColor.fromHex(AppSettings().colorBlack74);
     _isPinned = widget.note?.isPinned ?? false;
+    _textSize = widget.note?.textSize ?? 18;
+    _textType = stringToEnum(widget.note?.textType ?? 'normal') ?? TextType.normal;
   }
 }

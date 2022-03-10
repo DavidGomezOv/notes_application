@@ -23,7 +23,7 @@ class NoteAdapter extends TypeAdapter<Note> {
       fields[4] as DateTime,
       fields[5] as String?,
       fields[6] as bool,
-      fields[7] as TextType,
+      fields[7] as String,
       fields[8] as int,
     );
   }

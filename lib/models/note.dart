@@ -19,7 +19,7 @@ class Note extends HiveObject {
   @HiveField(6)
   bool isPinned;
   @HiveField(7)
-  TextType textType;
+  String textType;
   @HiveField(8)
   int textSize;
 

@@ -1,5 +1,6 @@
 enum TextType {
   normal,
   bold,
-  italic
+  italic,
+  italicBold
 }
