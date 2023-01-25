@@ -4,7 +4,7 @@ import 'package:notes_application/core/app_settings.dart';
 import 'package:notes_application/models/note.dart';
 import 'package:notes_application/ui/home_page.dart';
 
-Future<void> main() async {
+void main() async {
 
   await Hive.initFlutter();
   Hive.registerAdapter(NoteAdapter());
