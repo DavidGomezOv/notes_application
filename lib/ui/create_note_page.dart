@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
 import 'package:notes_application/bloc/note_bloc.dart';
 import 'package:notes_application/core/app_settings.dart';
@@ -125,7 +124,7 @@ class _CreateNotePageState extends State<CreateNotePage> {
                       } else if (_textType == TextType.italic) {
                         txtStyle = FontStyle.italic;
                         txtWeight = FontWeight.normal;
-                      } else if  (_textType == TextType.bold){
+                      } else if (_textType == TextType.bold) {
                         txtStyle = FontStyle.normal;
                         txtWeight = FontWeight.bold;
                       } else {
@@ -134,33 +133,42 @@ class _CreateNotePageState extends State<CreateNotePage> {
                       }
                       return Expanded(
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 20.0, vertical: 10.0),
-                            child: TextField(
-                              controller: _controllerNote,
-                              decoration: InputDecoration.collapsed(
-                                  hintText: 'Note',
-                                  hintStyle:
-                                  TextStyle(fontSize: _textSize.toDouble(), color: Colors.white)),
-                              style: TextStyle(color: Colors.white, fontSize: _textSize.toDouble(),
-                                  fontStyle: txtStyle, fontWeight: txtWeight),
-                              cursorColor: Colors.white,
-                              maxLines: null,
-                              expands: true,
-                            ),
-                          ));
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20.0, vertical: 10.0),
+                        child: TextField(
+                          controller: _controllerNote,
+                          decoration: InputDecoration.collapsed(
+                              hintText: 'Note',
+                              hintStyle: TextStyle(
+                                  fontSize: _textSize.toDouble(),
+                                  color: Colors.white)),
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: _textSize.toDouble(),
+                              fontStyle: txtStyle,
+                              fontWeight: txtWeight),
+                          cursorColor: Colors.white,
+                          maxLines: null,
+                          expands: true,
+                        ),
+                      ));
                     },
                   ),
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 20.0),
                     height: 145,
-                    child: Column(
-                        children: [
+                    child: Column(children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           TextButton(
-                            child: const Text('B', style: TextStyle(fontSize: 22, color: Colors.white, fontWeight: FontWeight.bold),),
+                            child: const Text(
+                              'B',
+                              style: TextStyle(
+                                  fontSize: 22,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                            ),
                             onPressed: () {
                               if (_textType == TextType.bold) {
                                 _textType = TextType.normal;
@@ -175,15 +183,21 @@ class _CreateNotePageState extends State<CreateNotePage> {
                             },
                             style: TextButton.styleFrom(
                               minimumSize: Size.zero,
-                              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 0),
                               tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                             ),
                           ),
                           TextButton(
-                            child: const FaIcon(FontAwesomeIcons.italic, size: 19, color: Colors.white,),
+                            child: const FaIcon(
+                              FontAwesomeIcons.italic,
+                              size: 19,
+                              color: Colors.white,
+                            ),
                             style: TextButton.styleFrom(
                               minimumSize: Size.zero,
-                              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 2),
                               tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                             ),
                             onPressed: () {
@@ -200,7 +214,13 @@ class _CreateNotePageState extends State<CreateNotePage> {
                             },
                           ),
                           TextButton(
-                            child: const Text('A+', style: TextStyle(fontSize: 22, color: Colors.white, fontWeight: FontWeight.bold),),
+                            child: const Text(
+                              'A+',
+                              style: TextStyle(
+                                  fontSize: 22,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                            ),
                             onPressed: () {
                               if (_textSize < 30) {
                                 _noteBloc.changeTextDataSink.add(true);
@@ -209,12 +229,19 @@ class _CreateNotePageState extends State<CreateNotePage> {
                             },
                             style: TextButton.styleFrom(
                               minimumSize: Size.zero,
-                              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 0),
                               tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                             ),
                           ),
                           TextButton(
-                            child: const Text('A-', style: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold),),
+                            child: const Text(
+                              'A-',
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                            ),
                             onPressed: () {
                               if (_textSize > 10) {
                                 _noteBloc.changeTextDataSink.add(true);
@@ -223,7 +250,8 @@ class _CreateNotePageState extends State<CreateNotePage> {
                             },
                             style: TextButton.styleFrom(
                               minimumSize: Size.zero,
-                              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 0),
                               tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                             ),
                           ),
@@ -308,13 +336,14 @@ class _CreateNotePageState extends State<CreateNotePage> {
                               );
                             },
                           ),
-                          IconButton(
+                          //Pending function implementation
+                          /*IconButton(
                             icon: const Icon(
                               Icons.add_box_outlined,
                               color: Colors.white,
                             ),
                             onPressed: () {},
-                          ),
+                          ),*/
                           IconButton(
                               icon: const Icon(
                                 Icons.delete,
@@ -389,6 +418,7 @@ class _CreateNotePageState extends State<CreateNotePage> {
         : HexColor.fromHex(AppSettings().colorBlack74);
     _isPinned = widget.note?.isPinned ?? false;
     _textSize = widget.note?.textSize ?? 18;
-    _textType = stringToEnum(widget.note?.textType ?? 'normal') ?? TextType.normal;
+    _textType =
+        stringToEnum(widget.note?.textType ?? 'normal') ?? TextType.normal;
   }
 }
